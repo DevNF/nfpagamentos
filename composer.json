@@ -1,0 +1,21 @@
+{
+    "name": "nfservice/plugconta",
+    "description": "Biblioteca para comunicaçao com a API de pagamentos da Tecnospeed",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Diego Almeida",
+            "email": "diego.feres82@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "NFService\\PlugConta\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "nfservice/laravel-helpers": "dev-master"
+    }
+}

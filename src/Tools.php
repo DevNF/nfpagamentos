@@ -627,6 +627,88 @@ class Tools
     }
 
     /**
+     * Função responsável por gerar protocolo de consulta do extrato via Open Finance
+     *
+     * @param string $cpfcnpj CPF/CNPJ do pagador
+     * @param array $dados Dados para gerar o extrato
+     * @param array $params Parametros adicionais para a requisição
+     *
+     * @access public
+     * @return array
+     */
+    public function protocoloExtratoOpenFinance(string $cpfcnpj, array $dados, array $params = []) :array
+    {
+        try {
+            $headers = [
+                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+            ];
+
+            $dados = $this->post('statement/openfinance', $dados, $params, $headers);
+
+            if (in_array($dados['httpCode'], [200, 201, 202])) {
+                return $dados;
+            }
+
+            if (isset($dados['body']->message)) {
+                $errors[] = $dados['body']->message;
+
+                if (isset($dados['body']->errors)) {
+                    foreach ($dados['body']->errors as $error) {
+                        $errors[] = $error->message;
+                    }
+                }
+
+                throw new Exception("\r\n".implode("\r\n", $errors), 1);
+            }
+
+            throw new Exception(json_encode($dados), 1);
+        } catch (Exception $error) {
+            throw new Exception($error, 1);
+        }
+    }
+
+    /**
+     * Função responsável por consultar os dados de um extrato Open Finance
+     *
+     * @param string $cpfcnpj CPF/CNPJ do pagador
+     * @param string $unique_id Unique ID do protocolo de consulta do extrato bancário
+     * @param array $params Parametros adicionais para a requisição
+     *
+     * @access public
+     * @return array
+     */
+    public function consultaExtratoOpenFinance(string $cpfcnpj, string $unique_id, array $params = []) :array
+    {
+        try {
+            $headers = [
+                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+            ];
+
+            $dados = $this->get("statement/openfinance/$unique_id", $params, $headers);
+
+            if (in_array($dados['httpCode'], [200, 201, 202])) {
+                return $dados;
+            }
+
+            if (isset($dados['body']->message)) {
+                $errors[] = $dados['body']->message;
+
+                if (isset($dados['body']->errors)) {
+                    foreach ($dados['body']->errors as $error) {
+                        $errors[] = $error->message;
+                    }
+                }
+
+                throw new Exception("\r\n".implode("\r\n", $errors), 1);
+            }
+
+            throw new Exception(json_encode($dados), 1);
+        } catch (Exception $error) {
+            throw new Exception($error, 1);
+        }
+    }
+
+    /**
      * Função responsável por retornar o conteúdo de um arquivo de extrato
      *
      * @param string $id ID do extrato bancário

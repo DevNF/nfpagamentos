@@ -1,6 +1,7 @@
 <?php
 namespace NFService\PlugConta;
 
+use CURLFile;
 use Exception;
 
 /**
@@ -754,6 +755,338 @@ class Tools
         }
     }
 
+    /**
+     * Função responsável por cadastrar um pagamento do tipo boleto
+     *
+     * @param array $dados dados para a requisição
+     * @param string $cpfcnpj CPF/CNPJ do pagador
+     * @param array $params Parametros adicionais para a requisição
+     *
+     * @access public
+     * @return array
+     */
+    public function cadastraPagamentoBoleto(array $dados, string $cpfcnpj, array $params = []) :array
+    {
+        try {
+            $headers = [
+                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+            ];
+
+            $originalDecode = $this->getDecode();
+            $this->setDecode(true);
+            $body = $dados;
+
+            $dados = $this->post("payment/billet", $dados, $params, $headers);
+
+            $this->setDecode($originalDecode);
+
+            if (in_array($dados['httpCode'], [200, 201, 202])) {
+                return $dados;
+            }
+
+            if (isset($dados['body']->message)) {
+                $errors[] = $dados['body']->message;
+
+                if (isset($dados['body']->errors)) {
+                    foreach ($dados['body']->errors as $error) {
+                        $errors[] = $error->message;
+                    }
+                }
+
+                throw new Exception("\r\n".implode("\r\n", $errors), 1);
+            }
+
+            throw new Exception(json_encode($dados), 1);
+        } catch (Exception $error) {
+            throw new Exception($error, 1);
+        }
+    }
+
+    /**
+     * Função responsável por cadastrar um pagamento do tipo transferencia bancária
+     *
+     * @param array $dados dados para a requisição
+     * @param string $cpfcnpj CPF/CNPJ do pagador
+     * @param array $params Parametros adicionais para a requisição
+     *
+     * @access public
+     * @return array
+     */
+    public function cadastraPagamentoTransferenciaBancaria(array $dados, string $cpfcnpj, array $params = []) :array
+    {
+        try {
+            $headers = [
+                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+            ];
+
+            $originalDecode = $this->getDecode();
+            $this->setDecode(true);
+
+            $dados = $this->post("payment/transfer", $dados, $params, $headers);
+
+            $this->setDecode($originalDecode);
+
+            if (in_array($dados['httpCode'], [200, 201, 202])) {
+                return $dados;
+            }
+
+            if (isset($dados['body']->message)) {
+                $errors[] = $dados['body']->message;
+
+                if (isset($dados['body']->errors)) {
+                    foreach ($dados['body']->errors as $error) {
+                        $errors[] = $error->message;
+                    }
+                }
+
+                throw new Exception("\r\n".implode("\r\n", $errors), 1);
+            }
+
+            throw new Exception(json_encode($dados), 1);
+        } catch (Exception $error) {
+            throw new Exception($error, 1);
+        }
+    }
+
+    /**
+     * Função responsável por cadastrar um pagamento do tipo pix estático
+     *
+     * @param array $dados dados para a requisição
+     * @param string $cpfcnpj CPF/CNPJ do pagador
+     * @param array $params Parametros adicionais para a requisição
+     *
+     * @access public
+     * @return array
+     */
+    public function cadastraPagamentoDiversos(array $dados, string $cpfcnpj, array $params = []) :array
+    {
+        try {
+            $headers = [
+                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+            ];
+
+            $originalDecode = $this->getDecode();
+            $this->setDecode(true);
+
+            $dados = $this->post("payment/various", $dados, $params, $headers);
+
+            $this->setDecode($originalDecode);
+
+            if (in_array($dados['httpCode'], [200, 201, 202])) {
+                return $dados;
+            }
+
+            if (isset($dados['body']->message)) {
+                $errors[] = $dados['body']->message;
+
+                if (isset($dados['body']->errors)) {
+                    foreach ($dados['body']->errors as $error) {
+                        $errors[] = $error->message;
+                    }
+                }
+
+                throw new Exception("\r\n".implode("\r\n", $errors), 1);
+            }
+
+            throw new Exception(json_encode($dados), 1);
+        } catch (Exception $error) {
+            throw new Exception($error, 1);
+        }
+    }
+
+
+    /**
+     * Função responsável por cadastrar uma remessa de pagamentos
+     *
+     * @param array $dados dados para a requisição
+     * @param string $cpfcnpj CPF/CNPJ do pagador
+     * @param array $params Parametros adicionais para a requisição
+     *
+     * @access public
+     * @return array
+     */
+    public function cadastraRemessaPagamentos(array $dados, string $cpfcnpj, array $params = []) :array
+    {
+        try {
+            $headers = [
+                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+            ];
+
+            $originalDecode = $this->getDecode();
+            $this->setDecode(true);
+
+            $dados = $this->post("remittance", $dados, $params, $headers);
+
+            $this->setDecode($originalDecode);
+
+            if (in_array($dados['httpCode'], [200, 201, 202])) {
+                return $dados;
+            }
+
+            if (isset($dados['body']->message)) {
+                $errors[] = $dados['body']->message;
+
+                if (isset($dados['body']->errors)) {
+                    foreach ($dados['body']->errors as $error) {
+                        $errors[] = $error->message;
+                    }
+                }
+
+                throw new Exception("\r\n".implode("\r\n", $errors), 1);
+            }
+
+            throw new Exception(json_encode($dados), 1);
+        } catch (Exception $error) {
+            throw new Exception($error, 1);
+        }
+    }
+
+
+    /**
+     * Função responsável por consultar uma remessa de pagamentos
+     *
+     * @param string $unique_id Unique ID da remessa
+     * @param string $cpfcnpj CPF/CNPJ do pagador
+     * @param array $params Parametros adicionais para a requisição
+     *
+     * @access public
+     * @return array
+     */
+    public function consultaRemessaPagamentos(string $unique_id, string $cpfcnpj, array $params = []) :array
+    {
+        try {
+            $headers = [
+                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+            ];
+
+            $originalDecode = $this->getDecode();
+            $this->setDecode(true);
+
+            $dados = $this->get("remittance/{$unique_id}",  $params, $headers);
+
+            $this->setDecode($originalDecode);
+
+            if (in_array($dados['httpCode'], [200, 201, 202])) {
+                return $dados;
+            }
+
+            if (isset($dados['body']->message)) {
+                $errors[] = $dados['body']->message;
+
+                if (isset($dados['body']->errors)) {
+                    foreach ($dados['body']->errors as $error) {
+                        $errors[] = $error->message;
+                    }
+                }
+
+                throw new Exception("\r\n".implode("\r\n", $errors), 1);
+            }
+
+            throw new Exception(json_encode($dados), 1);
+        } catch (Exception $error) {
+            throw new Exception($error, 1);
+        }
+    }
+
+    /**
+     * Função responsável por cadastrar um retorno de pagamentos
+     *
+     * @param $arquivo arquivo retorno de pagamentos
+     * @param string $cpfcnpj CPF/CNPJ do pagador
+     * @param array $params Parametros adicionais para a requisição
+     *
+     * @access public
+     * @return array
+     */
+    public function cadastraRetornoPagamentos($file, string $cpfcnpj, array $params = []) :array
+    {
+        if (!isset($file) || empty($file)) {
+            throw new Exception("É obrigatório o envio do conteúdo do arquivo retorno", 1);
+        }
+
+        try {
+            $headers = [
+                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+            ];
+
+            $dados = [
+                'file' => new CURLFile($file['path'], $file['type'], $file['name'])
+            ];
+
+            $originalDecode = $this->getDecode();
+            $this->setDecode(true);
+
+            $dados = $this->post("reconciliation",  $dados, $params, $headers);
+
+            $this->setDecode($originalDecode);
+
+            if (in_array($dados['httpCode'], [200, 201, 202])) {
+                return $dados;
+            }
+
+            if (isset($dados['body']->message)) {
+                $errors[] = $dados['body']->message;
+
+                if (isset($dados['body']->errors)) {
+                    foreach ($dados['body']->errors as $error) {
+                        $errors[] = $error->message;
+                    }
+                }
+
+                throw new Exception("\r\n".implode("\r\n", $errors), 1);
+            }
+
+            throw new Exception(json_encode($dados), 1);
+        } catch (Exception $error) {
+            throw new Exception($error, 1);
+        }
+    }
+
+    /**
+     * Função responsável por consultar um retorno de pagamentos
+     *
+     * @param string $unique_id Unique ID do retorno
+     * @param string $cpfcnpj CPF/CNPJ do pagador
+     * @param array $params Parametros adicionais para a requisição
+     *
+     * @access public
+     * @return array
+     */
+    public function consultaRetornoPagamentos(string $unique_id, string $cpfcnpj, array $params = []) :array
+    {
+        try {
+            $headers = [
+                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+            ];
+
+            $originalDecode = $this->getDecode();
+            $this->setDecode(true);
+
+            $dados = $this->get("reconciliation/{$unique_id}",  $params, $headers);
+
+            $this->setDecode($originalDecode);
+
+            if (in_array($dados['httpCode'], [200, 201, 202])) {
+                return $dados;
+            }
+
+            if (isset($dados['body']->message)) {
+                $errors[] = $dados['body']->message;
+
+                if (isset($dados['body']->errors)) {
+                    foreach ($dados['body']->errors as $error) {
+                        $errors[] = $error->message;
+                    }
+                }
+
+                throw new Exception("\r\n".implode("\r\n", $errors), 1);
+            }
+
+            throw new Exception(json_encode($dados), 1);
+        } catch (Exception $error) {
+            throw new Exception($error, 1);
+        }
+    }
     /**
      * Execute a GET Request
      *

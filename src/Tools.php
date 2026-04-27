@@ -190,6 +190,7 @@ class Tools
         $headers = [
             'cnpjsh: '.$this->config['cnpjsh'],
             'tokensh: '.$this->config['tokensh'],
+            'User-Agent: FuganholiFiscal/1.0',
         ];
 
         if (!$this->config['upload']) {

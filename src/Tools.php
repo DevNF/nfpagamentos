@@ -215,7 +215,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = $this->get('payer', $params, $headers);
@@ -292,7 +292,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = $this->put('payer', $dados, $params, $headers);
@@ -332,7 +332,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = $this->get('account', $params, $headers);
@@ -372,7 +372,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = $this->post('account', $dados, $params, $headers);
@@ -413,7 +413,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = $this->get("account/$hash", $params, $headers);
@@ -455,7 +455,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = $this->put("account/$hash", $dados, $params, $headers);
@@ -496,7 +496,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = [
@@ -546,7 +546,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = $this->get("statement/parser/$id", $params, $headers);
@@ -601,7 +601,7 @@ class Tools
             ];
 
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = $this->get('statement', $params, $headers);
@@ -642,7 +642,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = $this->post('statement/openfinance', $dados, $params, $headers);
@@ -683,7 +683,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = $this->get("statement/openfinance/$unique_id", $params, $headers);
@@ -724,7 +724,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $originalDecode = $this->getDecode();
@@ -770,7 +770,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $originalDecode = $this->getDecode();
@@ -817,7 +817,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $originalDecode = $this->getDecode();
@@ -863,7 +863,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $originalDecode = $this->getDecode();
@@ -910,7 +910,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $originalDecode = $this->getDecode();
@@ -957,7 +957,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $originalDecode = $this->getDecode();
@@ -1007,7 +1007,7 @@ class Tools
 
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $dados = [
@@ -1057,7 +1057,7 @@ class Tools
     {
         try {
             $headers = [
-                'payercpfcnpj: '.onlyNumber($cpfcnpj)
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
             $originalDecode = $this->getDecode();

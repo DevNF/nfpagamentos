@@ -483,6 +483,51 @@ class Tools
     }
 
     /**
+     * Função responsável por revogar o vínculo Open Finance de uma conta bancária
+     *
+     * Remove a conexão ativa no banco. Com `$revokeAndDisable = false` a conta continua com Open
+     * Finance habilitado e pode ser vinculada de novo; com `true` o Open Finance é desativado.
+     *
+     * @param string $hash Hash da conta bancária na Tecnospeed
+     * @param string $cpfcnpj CPF/CNPJ do pagador
+     * @param bool $revokeAndDisable Desativa o Open Finance da conta além de revogar
+     * @param array $params Parametros adicionais para a requisição
+     *
+     * @access public
+     * @return array
+     */
+    public function revogaOpenFinance(string $hash, string $cpfcnpj, bool $revokeAndDisable = false, array $params = []) :array
+    {
+        try {
+            $headers = [
+                'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
+            ];
+
+            $dados = $this->post("account/$hash/openfinance/revoke", ['revokeAndDisable' => $revokeAndDisable], $params, $headers);
+
+            if (in_array($dados['httpCode'], [200, 201, 202])) {
+                return $dados;
+            }
+
+            if (isset($dados['body']->message)) {
+                $errors[] = $dados['body']->message;
+
+                if (isset($dados['body']->errors)) {
+                    foreach ($dados['body']->errors as $error) {
+                        $errors[] = $error->message;
+                    }
+                }
+
+                throw new Exception("\r\n".implode("\r\n", $errors), 1);
+            }
+
+            throw new Exception(json_encode($dados), 1);
+        } catch (Exception $error) {
+            throw new Exception($error, 1);
+        }
+    }
+
+    /**
      * Função responsável por enviar um extrato bancário
      *
      * @param string $cpfcnpj CPF/CNPJ do pagador

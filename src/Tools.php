@@ -503,7 +503,7 @@ class Tools
                 'payercpfcnpj: '.onlyCpfCnpj($cpfcnpj)
             ];
 
-            $dados = $this->post("account/$hash/openfinance/revoke", ['revokeAndDisable' => $revokeAndDisable], $params, $headers);
+            $dados = $this->put("account/$hash/openfinance/revoke", ['revokeAndDisable' => $revokeAndDisable], $params, $headers);
 
             if (in_array($dados['httpCode'], [200, 201, 202])) {
                 return $dados;
